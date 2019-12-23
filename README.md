@@ -9,7 +9,7 @@
 ### Features
 
 - [x] Graceful to create/destroy the resource
-- [x] Keep a number of resources in the pool (resource.length >= option.min && resource.length <= option.max)
+- [x] Keep a number of resources in the pool (depen on `option.min` && `option.max`)
 - [x] Automatically destroy idle resources
 - [x] Easy to Use
 - [x] test cover
