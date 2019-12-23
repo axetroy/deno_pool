@@ -51,6 +51,11 @@ const conn = await pool.get();
 const name: string = await conn.query("name");
 
 console.log("My name is: ", name);
+
+// destroy the pool
+// When you no longer need the resource pool
+// you need to destroy it, otherwise the internal loop will continue and the process will not exit
+pool.destroy();
 ```
 
 ## License
