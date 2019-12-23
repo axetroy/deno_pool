@@ -122,7 +122,7 @@ test(async function testPoolWithAutoClean() {
 
   assertEquals(pool.size, 10);
 
-  await sleep(1000 * 2);
+  await sleep(1000 * 3);
 
   assertEquals(pool.size, 0);
 
