@@ -37,9 +37,11 @@ function connectToDataBase(): Db {
 const pool = new Pool<Db>({
   min: 1,
   max: 10,
+  // defined how to create a resource
   creator: async (pool, resourceID) => {
     return connectToDataBase();
   },
+  // defined how to destroy a resource
   destroyer: async (pool, resource) => {
     return resource.resource.disconnect();
   }
