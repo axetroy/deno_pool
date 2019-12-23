@@ -2,11 +2,15 @@
 
 ### Generic pool for Deno
 
-> Manage the resource pool, like connection...
+> A generic resource pool management library
+>
+> eg. managing db/RPC connection and so on.
 
 ### Features
 
 - [x] Graceful to create/destroy the resource
+- [x] Keep a number of resources in the pool (resource.length >= option.min && resource.length <= option.max)
+- [x] Automatically destroy idle resources
 - [x] Easy to Use
 - [x] test cover
 
