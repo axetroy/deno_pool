@@ -1,4 +1,4 @@
-import { v4 } from "https://deno.land/std@v0.27.0/uuid/mod.ts";
+import { v4 } from "https://deno.land/std@v0.35.0/uuid/mod.ts";
 
 export interface Resource<T> {
   id: string; // resource id
@@ -24,8 +24,8 @@ export interface Option<T> {
 
 export class Pool<T> {
   private pool = new Map<string, Resource<T>>();
-  public destroyed: boolean;
-  private timmer;
+  public destroyed = false;
+  private timer: number;
   constructor(private options: Option<T>) {
     if (!options.min || options.min < 0) {
       options.min = 0;
@@ -44,7 +44,7 @@ export class Pool<T> {
     }
 
     // check idle resource
-    this.timmer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.checkIdle();
     }, options.interval);
   }
@@ -59,12 +59,12 @@ export class Pool<T> {
     const currentSize = this.pool.size;
     const now = new Date();
 
-    if (currentSize > 0 && currentSize > this.options.min) {
+    if (currentSize > 0 && currentSize > this.options.min!) {
       for (const [id, resource] of this.pool.entries()) {
         // If idle time is exceeded, resources are released
         if (
           now.getTime() - resource.recentlyUsedAt.getTime() >
-          this.options.idle
+          this.options.idle!
         ) {
           try {
             await this.release(id);
@@ -96,7 +96,7 @@ export class Pool<T> {
       await this.release(id);
     }
     this.destroyed = true;
-    this.timmer && clearInterval(this.timmer);
+    this.timer && clearInterval(this.timer);
     return;
   }
 
@@ -107,8 +107,8 @@ export class Pool<T> {
     }
 
     // the pool not fulled, it should create new one
-    if (this.pool.size < this.options.max) {
-      const id = v4();
+    if (this.pool.size < this.options.max!) {
+      const id = v4.generate();
 
       const instance = await this.options.creator(this, id.toString());
 
@@ -126,7 +126,7 @@ export class Pool<T> {
 
     // otherwise use the resource in pool
     // find the resource which not use at latest
-    let resource: Resource<T>;
+    let resource: Resource<T> | void;
 
     for (const [_, r] of this.pool.entries()) {
       if (!resource) {

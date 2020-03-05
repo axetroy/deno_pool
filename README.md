@@ -17,21 +17,21 @@
 ### Usage
 
 ```typescript
-import { Pool } from "https://deno.land/x/std/pool/mod.ts";
+import { Pool } from 'https://deno.land/x/pool@v0.1.0/mod.ts'
 
 // fake db
 interface Db {
-  query(params: string): Promise<any>; // query data
-  disconnect(): void; // disconnect
+  query(params: string): Promise<any> // query data
+  disconnect(): void // disconnect
 }
 
 function connectToDataBase(): Db {
   return {
     query: async (params: string) => {
-      return "axetroy";
+      return 'axetroy'
     },
-    disconnect: () => {}
-  };
+    disconnect: () => {},
+  }
 }
 
 const pool = new Pool<Db>({
@@ -39,25 +39,25 @@ const pool = new Pool<Db>({
   max: 10,
   // defined how to create a resource
   creator: async (pool, resourceID) => {
-    return connectToDataBase();
+    return connectToDataBase()
   },
   // defined how to destroy a resource
   destroyer: async (pool, resource) => {
-    return resource.resource.disconnect();
-  }
-});
+    return resource.resource.disconnect()
+  },
+})
 
 // get resource from pool
-const conn = await pool.get();
+const conn = await pool.get()
 
-const name: string = await conn.query("name");
+const name: string = await conn.query('name')
 
-console.log("My name is: ", name);
+console.log('My name is: ', name)
 
 // destroy the pool
 // When you no longer need the resource pool
 // you need to destroy it, otherwise the internal loop will continue and the process will not exit
-pool.destroy();
+pool.destroy()
 ```
 
 ## License

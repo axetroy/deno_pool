@@ -1,6 +1,9 @@
-import { assertEquals } from "https://deno.land/std@v0.27.0/testing/asserts.ts";
-import { runIfMain, test } from "https://deno.land/std@v0.27.0/testing/mod.ts";
+import {
+  assertEquals
+} from "https://deno.land/std@v0.35.0/testing/asserts.ts";
 import { Pool } from "./mod.ts";
+
+const { test } = Deno;
 
 async function sleep(ms: number) {
   return new Promise((resolve, reject) => {
@@ -128,5 +131,3 @@ test(async function testPoolWithAutoClean() {
 
   pool.destroy();
 });
-
-runIfMain(import.meta);
