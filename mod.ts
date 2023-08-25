@@ -1,5 +1,3 @@
-import { v4 } from "https://deno.land/std@v0.35.0/uuid/mod.ts";
-
 export interface Resource<T> {
   id: string; // resource id
   recentlyUsedAt: Date; // Date of last use of the resource
@@ -108,7 +106,7 @@ export class Pool<T> {
 
     // the pool not fulled, it should create new one
     if (this.pool.size < this.options.max!) {
-      const id = v4.generate();
+      const id = crypto.randomUUID();
 
       const instance = await this.options.creator(this, id.toString());
 
